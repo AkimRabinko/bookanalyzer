@@ -1,0 +1,4 @@
+vaadin-tab::before, vaadin-tab::after {
+    width: 100%;
+    transition-duration: 0.5s;
+}

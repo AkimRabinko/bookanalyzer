@@ -1,0 +1,65 @@
+package com.akimrabinko.bookanalyzer.model.enums;
+
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+@Getter
+@RequiredArgsConstructor
+public enum Genre {
+    ACTION("Action and adventure"),
+    ART_AND_ARCHITECTURE("Art/architecture"),
+    ALTERNATE_HISTORY("Alternate history"),
+    AUTOBIOGRAPHY("Autobiography"),
+    ANTHOLOGY("Anthology"),
+    BIOGRAPHY("Biography"),
+    BUSINESS("Business/economics"),
+    CHILDREN("Children's"),
+    CHICK_LIT("Chick lit"),
+    CLASSIC("Classic"),
+    COOKBOOK("Cookbook"),
+    COMICS("Comic book"),
+    DIARY("Diary"),
+    COMING_OF_AGE("Coming-of-age"),
+    DICTIONARY("Dictionary"),
+    CRIME("Crime"),
+    ENCYCLOPEDIA("Encyclopedia"),
+    DRAMA("Drama"),
+    GUIDE("Guide"),
+    FAIRYTALE("Fairytale"),
+    FANTASY("Fantasy"),
+    GRAPHIC_NOVEL("Graphic novel"),
+    HEALTH("Health/fitness"),
+    HISTORY("History"),
+    HOBBIES("Crafts/hobbies"),
+    HOME("Home and garden"),
+    HISTORICAL_FICTION("Historical fiction"),
+    HUMOR("Humor"),
+    HORROR("Horror"),
+    JOURNAL("Journal"),
+    MYSTERY("Mystery"),
+    MATH("Math"),
+    MEMOIR("Memoir"),
+    PARANORMAL_ROMANCE("Paranormal romance"),
+    PICTURE("Picture book"),
+    PHILOSOPHY("Philosophy"),
+    POETRY("Poetry"),
+    PRAYER("Prayer"),
+    POLITICAL_THRILLER("Political thriller"),
+    RELIGION("Religion, spirituality, and new age"),
+    ROMANCE("Romance"),
+    REVIEW("Review"),
+    SATIRE("Satire"),
+    SCIENCE_FICTION("Science fiction"),
+    SHORT_STORY("Short story"),
+    SCIENCE("Science"),
+    SUSPENSE("Suspense"),
+    SELF_HELP("Self help"),
+    TEXTBOOK("Textbook"),
+    THRILLER("Thriller"),
+    TRUE_CRIME("True crime"),
+    SPORT("Sports and leisure"),
+    WESTERN("Western"),
+    YOUNG_ADULT("Young adult");
+
+    private final String genre;
+}
