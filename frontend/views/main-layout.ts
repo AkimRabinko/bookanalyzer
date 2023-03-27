@@ -4,11 +4,12 @@ import '@vaadin/app-layout';
 import '@vaadin/app-layout/vaadin-drawer-toggle';
 import '@vaadin/icon';
 import '@vaadin/icons';
-import '@vaadin/tabs';
 import '@vaadin/tabsheet';
-
+import '@vaadin/tabs';
+import '@vaadin/accordion';
 import {applyTheme} from 'Frontend/generated/theme';
 import './books';
+import './save-books';
 
 
 @customElement('main-layout')
@@ -41,7 +42,18 @@ export class MainLayout extends LitElement {
                     </vaadin-tab>
                 </vaadin-tabs>
                 <div tab="main">
-                    <books-template id="booksTemplate" style="height: 100%;"></books-template>
+                    <vaadin-accordion>
+                        <vaadin-accordion-panel summary="Save Book">
+                            <vaadin-vertical-layout>
+                                <save-books-template></save-books-template>
+                            </vaadin-vertical-layout>
+                        </vaadin-accordion-panel>
+                        <vaadin-accordion-panel summary="Books">
+                            <vaadin-vertical-layout>
+                                <books-template></books-template>
+                            </vaadin-vertical-layout>
+                        </vaadin-accordion-panel>
+                    </vaadin-accordion>
                 </div>
                 <div tab="analyzed_books">
                 </div>

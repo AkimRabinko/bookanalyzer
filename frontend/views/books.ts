@@ -1,30 +1,22 @@
 import {html, LitElement} from 'lit';
-import type Book from "Frontend/views/model/book";
+import {customElement, state} from 'lit/decorators.js';
+import type Book from "Frontend/generated/com/akimrabinko/bookanalyzer/model/Book";
+import client from 'Frontend/generated/connect-client.default';
 import '@vaadin/grid';
 import '@vaadin/grid/vaadin-grid-filter-column.js';
 import {applyTheme} from 'Frontend/generated/theme';
-import {state} from 'lit/decorators.js';
 import {gridRowDetailsRenderer} from "@vaadin/grid/lit";
 import {GridActiveItemChangedEvent} from "@vaadin/grid";
 import '@vaadin/form-layout';
 import '@vaadin/text-field';
 import '@vaadin/text-area';
 
-const URL = "/book/all";
-
-
+@customElement('books-template')
 class Books extends LitElement {
     @state()
     private books: Book[] = [];
     @state()
     private detailsOpenedItem: Book[] = [];
-
-    private async _getBooks(): Promise<Book[]> {
-        let xhr = new XMLHttpRequest();
-        xhr.open("GET", URL, false);
-        xhr.send();
-        return JSON.parse(xhr.responseText);
-    }
 
     protected override createRenderRoot() {
         const root = super.createRenderRoot();
@@ -32,8 +24,13 @@ class Books extends LitElement {
         return root;
     }
 
+    private async getBooks(): Promise<Book[]> {
+        return client.call('BookController', 'getAllBooks');
+    }
+
     protected override async firstUpdated() {
-        this.books = await this._getBooks();
+        this.books = await this.getBooks();
+        console.log('done');
     }
 
     protected override render() {
@@ -73,4 +70,4 @@ class Books extends LitElement {
     }
 }
 
-customElements.define('books-template', Books);
+export default Books;
