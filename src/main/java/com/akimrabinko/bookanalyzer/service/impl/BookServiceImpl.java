@@ -5,11 +5,12 @@ import com.akimrabinko.bookanalyzer.model.BookAnalysis;
 import com.akimrabinko.bookanalyzer.repository.BookRepository;
 import com.akimrabinko.bookanalyzer.service.BookAnalysisService;
 import com.akimrabinko.bookanalyzer.service.BookService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLException;
 import java.util.List;
 
+@Slf4j
 @Service
 public class BookServiceImpl implements BookService {
 
@@ -22,12 +23,14 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void importBook(Book book) throws SQLException {
+    public boolean importBook(Book book) {
         long id = bookRepository.importBook(book);
         if (id == -1) {
-            throw new SQLException("Book wasn't saved");
+            log.error("Book wasn't saved");
+            return false;
         }
         bookRepository.importContent(id, book.getContent());
+        return true;
     }
 
     @Override

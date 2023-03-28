@@ -6,7 +6,6 @@ import com.akimrabinko.bookanalyzer.service.BookService;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import dev.hilla.Endpoint;
 
-import java.sql.SQLException;
 import java.util.List;
 
 @Endpoint
@@ -19,8 +18,8 @@ public class BookController {
         this.bookService = bookService;
     }
 
-    public void importBook(Book book) throws SQLException {
-        bookService.importBook(book);
+    public boolean importBook(Book book) {
+        return bookService.importBook(book);
     }
 
     public List<Book> getAllBooks() {
