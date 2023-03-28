@@ -19,9 +19,65 @@ import '@vaadin/select';
 import {Binder, field, Min, NotEmpty, Positive, Size} from "@hilla/form";
 import {FormLayoutResponsiveStep} from "@vaadin/form-layout";
 import {Notification} from '@vaadin/notification';
+import "@vaadin/dialog";
+import {
+    dialogFooterRenderer,
+    dialogHeaderRenderer,
+    DialogHeaderRendererDirective,
+    dialogRenderer,
+    DialogRendererDirective
+} from "@vaadin/dialog/lit";
+import {DialogOpenedChangedEvent} from "@vaadin/dialog";
+import '@vaadin/vaadin-lumo-styles/vaadin-iconset';
+import '@vaadin/icon';
+import {DirectiveResult} from "lit/directive";
+import {DialogFooterRendererDirective} from "@vaadin/dialog/src/lit/renderer-directives";
 
 @customElement('books-template')
 class Books extends LitElement {
+    private bookContentHeaderDialogRenderer: DirectiveResult<typeof DialogHeaderRendererDirective> = dialogHeaderRenderer(
+        () => html`
+            <vaadin-button theme="tertiary" @click="${this.closeBookContentDialog}">
+                <vaadin-icon icon="lumo:cross"></vaadin-icon>
+            </vaadin-button>
+        `);
+    private bookContentDialogRender: DirectiveResult<typeof DialogRendererDirective> = dialogRenderer(
+        () => html`
+            <vaadin-vertical-layout theme="spacing"
+                                    style="max-width: 100%; min-width: 300px; height: 100%; align-items: stretch;">
+                ${!this.detailsOpenedItem[0] ? '' : this.detailsOpenedItem[0].content}
+            </vaadin-vertical-layout>`);
+
+    private saveBookDialogRenderer: DirectiveResult<typeof DialogRendererDirective> = dialogRenderer(
+        () => html`
+            <vaadin-form-layout .responsiveSteps="${this.responsiveSteps}">
+                <vaadin-text-field id="book-name" label="Book Name" colspan="3"
+                                   ${field(this.binder.model.bookName)}></vaadin-text-field>
+                <vaadin-text-field id="book-author" label="Book Author"
+                                   ${field(this.binder.model.bookAuthor)}></vaadin-text-field>
+                <vaadin-select id="genre" label="Genre" .items="${this.genres}"
+                               ${field(this.binder.model.genre)}></vaadin-select>
+                <vaadin-select id="language" label="Language" .items="${this.languages}"
+                               ${field(this.binder.model.language)}></vaadin-select>
+                <vaadin-number-field id="year-of-publish" label="Year Of Publish"
+                                     ${field(this.binder.model.yearOfPublish)}></vaadin-number-field>
+                <vaadin-text-field id="publisher" label="Publisher"
+                                   ${field(this.binder.model.publisher)}></vaadin-text-field>
+                <vaadin-text-field id="isbn" label="Isbn"
+                                   ${field(this.binder.model.isbn)}></vaadin-text-field>
+                <vaadin-text-area id="description" label="Description" colspan="3"
+                                  ${field(this.binder.model.description)}></vaadin-text-area>
+                <vaadin-text-area id="content" label="Content" colspan="3"
+                                  ${field(this.binder.model.content)}></vaadin-text-area>
+            </vaadin-form-layout>`);
+    private saveBookDialogFooterRenderer: DirectiveResult<typeof DialogFooterRendererDirective> = dialogFooterRenderer(
+        () => html`
+            <vaadin-button theme="primary" @click="${this.saveBook}" ?disabled="${this.binder.invalid}"
+                           style="margin-right: auto;">Save
+            </vaadin-button>
+            <vaadin-button theme="tertiary" @click="${this.closeSaveBookDialog}">Cancel</vaadin-button>`);
+
+
     @state()
     private books: Book[] = [];
     @state()
@@ -31,6 +87,28 @@ class Books extends LitElement {
     protected genres: Object[] = [];
     @state()
     protected languages: Object[] = [];
+
+    @state()
+    private bookContentDialogOpened: boolean = false;
+
+    private openBookContentDialog() {
+        this.bookContentDialogOpened = true;
+    }
+
+    private closeBookContentDialog() {
+        this.bookContentDialogOpened = false;
+    }
+
+    @state()
+    private saveBookDialogOpened: boolean = false;
+
+    private openSaveBookDialog() {
+        this.saveBookDialogOpened = true;
+    }
+
+    private closeSaveBookDialog() {
+        this.saveBookDialogOpened = false;
+    }
 
     private binder = new Binder(this, BookModel);
 
@@ -119,24 +197,20 @@ class Books extends LitElement {
         let book: Book = this.binder.value;
         try {
             let success = await this.callSaveBook(book);
-            this.showNotification(success, '');
+            let message = success ? 'Book was saved' : 'Book wasn\'t saved.';
+            this.showNotification(success, message);
         } catch (e) {
-            this.showNotification(false, (<Error>e).message);
+            this.showNotification(false, 'Book wasn\'t saved. Reason: ' + (<Error>e).message);
         }
         this.binder.clear();
         await this.loadBooks();
-    }
-
-    protected closeSaveBookForm() {
-
     }
 
     private callSaveBook(book: Book): Promise<boolean> {
         return client.call('BookController', 'importBook', {book});
     }
 
-    private showNotification(success: boolean, errMessage: string) {
-        let message = success ? 'Book was saved' : 'Book wasn\'t saved. Reason: ' + errMessage;
+    private showNotification(success: boolean, message: string) {
         let theme = success ? 'success' : 'error';
         const notification = Notification.show(message, {
             position: "bottom-start"
@@ -144,54 +218,23 @@ class Books extends LitElement {
         notification.setAttribute('theme', theme);
     }
 
+
+    private async analyzeBook(id: number) {
+        let responseObj = this.callAnalyzeBook(id);
+        if (!!responseObj) {
+            this.showNotification(true, 'Book was analyzed');
+        } else {
+            this.showNotification(false, 'Book wasn\'t analyzed');
+        }
+    }
+
+    private callAnalyzeBook(id: number): Promise<Object> {
+        return client.call('BookController', 'analyze', {id});
+    }
+
     protected override render() {
         return html`
-            <vaadin-accordion>
-                <vaadin-accordion-panel summary="Save Book">
-                    <vaadin-vertical-layout theme="spacing">
-                        <vaadin-form-layout .responsiveSteps="${this.responsiveSteps}">
-                            <vaadin-text-field id="book-name"
-                                               label="Book Name"
-                                               colspan="3"
-                                               ${field(this.binder.model.bookName)}></vaadin-text-field>
-                            <vaadin-text-field id="book-author"
-                                               label="Book Author"
-                                               ${field(this.binder.model.bookAuthor)}></vaadin-text-field>
-                            <vaadin-select id="genre" label="Genre"
-                                           .items="${this.genres}"
-                                           ${field(this.binder.model.genre)}></vaadin-select>
-                            <vaadin-select id="language" label="Language"
-                                           .items="${this.languages}"
-                                           ${field(this.binder.model.language)}></vaadin-select>
-                            <vaadin-number-field id="year-of-publish"
-                                                 label="Year Of Publish"
-                                                 ${field(this.binder.model.yearOfPublish)}></vaadin-number-field>
-                            <vaadin-text-field id="publisher"
-                                               label="Publisher"
-                                               ${field(this.binder.model.publisher)}></vaadin-text-field>
-                            <vaadin-text-field id="isbn"
-                                               label="Isbn"
-                                               ${field(this.binder.model.isbn)}></vaadin-text-field>
-                            <vaadin-text-area id="description"
-                                              label="Description"
-                                              colspan="3"
-                                              ${field(this.binder.model.description)}></vaadin-text-area>
-                            <vaadin-text-area id="content"
-                                              label="Content"
-                                              colspan="3"
-                                              ${field(this.binder.model.content)}></vaadin-text-area>
-                        </vaadin-form-layout>
-                        <vaadin-horizontal-layout theme="spacing">
-                            <vaadin-button theme="primary"
-                                           @click="${this.saveBook}"
-                                           ?disabled=${this.binder.invalid}>Save
-                            </vaadin-button>
-                            <vaadin-button theme="secondary"
-                                           @click="${this.closeSaveBookForm}">Cancel
-                            </vaadin-button>
-                        </vaadin-horizontal-layout>
-                    </vaadin-vertical-layout>
-            </vaadin-accordion>
+            <vaadin-button theme="primary" @click="${this.openSaveBookDialog}">Save Book</vaadin-button>
             <vaadin-grid .items="${this.books}" id="book-grid" theme="row-stripes no-border"
                          .detailsOpenedItems="${this.detailsOpenedItem}"
                          @active-item-changed="${(event: GridActiveItemChangedEvent<Book>) => {
@@ -203,16 +246,23 @@ class Books extends LitElement {
                                      <vaadin-form-layout .responsiveSteps="${[{minWidth: '0', columns: 3}]}">
                                          <vaadin-text-field
                                                  label="Publisher"
-                                                 .value="${book.yearOfPublish} ${book.publisher}"
+                                                 .value="${book.yearOfPublish} / ${book.publisher}"
                                                  colspan="3"
-                                                 readonly
-                                         ></vaadin-text-field>
+                                                 readonly>
+                                         </vaadin-text-field>
                                          <vaadin-text-area
                                                  label="Description"
                                                  .value="${book.description}"
                                                  colspan="3"
-                                                 readonly
-                                         ></vaadin-text-area>
+                                                 readonly>
+                                         </vaadin-text-area>
+                                         <vaadin-button theme="primary" @click="${this.openBookContentDialog}">Review
+                                             Content
+                                         </vaadin-button>
+                                         <vaadin-button theme="primary" @click="${() => {
+                                             this.analyzeBook(book.id)
+                                         }}">Analyze
+                                         </vaadin-button>
                                      </vaadin-form-layout>
                                  `,
                                  []
@@ -223,7 +273,30 @@ class Books extends LitElement {
                 <vaadin-grid-filter-column path="genre"></vaadin-grid-filter-column>
                 <vaadin-grid-filter-column path="isbn"></vaadin-grid-filter-column>
                 <vaadin-grid-filter-column path="language"></vaadin-grid-filter-column>
-            </vaadin-grid>`;
+            </vaadin-grid>
+            <vaadin-dialog
+                    id="book-content-dialog"
+                    header-title="${!this.detailsOpenedItem[0] ? '' : this.detailsOpenedItem[0].bookName}"
+                    resizable
+                    draggable
+                    .opened="${this.bookContentDialogOpened}"
+                    ${this.bookContentHeaderDialogRenderer}
+                    @opened-changed="${(event: DialogOpenedChangedEvent) => {
+                        this.bookContentDialogOpened = event.detail.value;
+                    }}"
+                    ${this.bookContentDialogRender}>
+            </vaadin-dialog>
+            <vaadin-dialog
+                    id="book-save-dialog"
+                    header-title="Save New Book"
+                    draggable
+                    .opened="${this.saveBookDialogOpened}"
+                    @opened-changed="${(event: DialogOpenedChangedEvent) => {
+                        this.saveBookDialogOpened = event.detail.value;
+                    }}"
+                    ${this.saveBookDialogRenderer}
+                    ${this.saveBookDialogFooterRenderer}>
+            </vaadin-dialog>`;
     }
 }
 

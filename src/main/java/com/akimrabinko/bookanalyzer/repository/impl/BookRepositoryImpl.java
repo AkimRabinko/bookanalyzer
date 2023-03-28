@@ -92,7 +92,8 @@ public class BookRepositoryImpl implements BookRepository {
 
     @Override
     public List<Book> getAllBooks() {
-        return jdbcTemplate.query("SELECT * FROM BOOK_ANALYZER.BOOK",
+        return jdbcTemplate.query("SELECT b.*, bc.content FROM BOOK_ANALYZER.BOOK AS b" +
+                        " LEFT JOIN BOOK_ANALYZER.BOOK_CONTENT AS bc ON (b.id = bc.book_id)",
                 BeanPropertyRowMapper.newInstance(Book.class));
     }
 }
