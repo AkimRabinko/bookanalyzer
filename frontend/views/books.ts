@@ -264,10 +264,7 @@ class Books extends LitElement {
                                          }}">Analyze
                                          </vaadin-button>
                                      </vaadin-form-layout>
-                                 `,
-                                 []
-                         )}
-            >
+                                 `)}>
                 <vaadin-grid-filter-column path="bookAuthor"></vaadin-grid-filter-column>
                 <vaadin-grid-filter-column path="bookName"></vaadin-grid-filter-column>
                 <vaadin-grid-filter-column path="genre"></vaadin-grid-filter-column>
@@ -299,5 +296,3 @@ class Books extends LitElement {
             </vaadin-dialog>`;
     }
 }
-
-export default Books;

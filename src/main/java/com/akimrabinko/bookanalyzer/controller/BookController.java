@@ -1,5 +1,6 @@
 package com.akimrabinko.bookanalyzer.controller;
 
+import com.akimrabinko.bookanalyzer.dto.BookAnalysisDto;
 import com.akimrabinko.bookanalyzer.model.Book;
 import com.akimrabinko.bookanalyzer.model.BookAnalysis;
 import com.akimrabinko.bookanalyzer.service.BookService;
@@ -28,5 +29,9 @@ public class BookController {
 
     public BookAnalysis analyze(long id) {
         return bookService.analyze(id);
+    }
+
+    public List<BookAnalysisDto> getAllBooksAnalysis() {
+        return bookService.getAllBooksAnalysis();
     }
 }

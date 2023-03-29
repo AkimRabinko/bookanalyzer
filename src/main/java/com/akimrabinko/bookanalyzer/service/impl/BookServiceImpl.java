@@ -1,5 +1,6 @@
 package com.akimrabinko.bookanalyzer.service.impl;
 
+import com.akimrabinko.bookanalyzer.dto.BookAnalysisDto;
 import com.akimrabinko.bookanalyzer.model.Book;
 import com.akimrabinko.bookanalyzer.model.BookAnalysis;
 import com.akimrabinko.bookanalyzer.repository.BookRepository;
@@ -9,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -46,5 +48,14 @@ public class BookServiceImpl implements BookService {
         bookRepository.updateBookAnalysis(bookAnalysis);
         bookRepository.importWordsUsageAnalysis(bookAnalysis.getWordsUsages());
         return bookAnalysis;
+    }
+
+    @Override
+    public List<BookAnalysisDto> getAllBooksAnalysis() {
+        return bookRepository.getAllBooksAnalysis().stream()
+                .map(el -> el.toBuilder()
+                        .wordsUsages(bookRepository.getWordUsagesByAnalysisId(el.getId()))
+                        .build())
+                .collect(Collectors.toList());
     }
 }

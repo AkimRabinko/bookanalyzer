@@ -1,5 +1,6 @@
 package com.akimrabinko.bookanalyzer.repository.impl;
 
+import com.akimrabinko.bookanalyzer.dto.BookAnalysisDto;
 import com.akimrabinko.bookanalyzer.model.Book;
 import com.akimrabinko.bookanalyzer.model.BookAnalysis;
 import com.akimrabinko.bookanalyzer.model.WordsUsageAnalysis;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -92,8 +94,32 @@ public class BookRepositoryImpl implements BookRepository {
 
     @Override
     public List<Book> getAllBooks() {
-        return jdbcTemplate.query("SELECT b.*, bc.content FROM BOOK_ANALYZER.BOOK AS b" +
-                        " LEFT JOIN BOOK_ANALYZER.BOOK_CONTENT AS bc ON (b.id = bc.book_id)",
+        return jdbcTemplate.query("SELECT b.*, bc.content FROM BOOK_ANALYZER.BOOK b" +
+                        " LEFT JOIN BOOK_ANALYZER.BOOK_CONTENT bc ON (b.id = bc.book_id)",
                 BeanPropertyRowMapper.newInstance(Book.class));
+    }
+
+    @Override
+    public List<WordsUsageAnalysis> getWordUsagesByAnalysisId(long id) {
+        return jdbcTemplate.query("SELECT * FROM BOOK_ANALYZER.WORDS_USAGE_ANALYSIS " +
+                        "WHERE WORDS_USAGE_ANALYSIS.BOOK_ANALYSIS_ID = ?",
+                BeanPropertyRowMapper.newInstance(WordsUsageAnalysis.class),
+                id);
+    }
+
+    @Override
+    public List<BookAnalysisDto> getAllBooksAnalysis() {
+        return jdbcTemplate.query("SELECT BA.ID, BA.LAUNCH_START, BA.LAUNCH_END, BA.WORDS_COUNT, " +
+                        "BB.BOOK_NAME, BB.BOOK_AUTHOR FROM BOOK_ANALYZER.BOOK_ANALYSIS BA " +
+                        "JOIN BOOK_ANALYZER.BOOK BB ON (BB.ID = BA.BOOK_ID)",
+                (rs, rowNum) ->
+                        BookAnalysisDto.builder()
+                                .id(rs.getLong("ID"))
+                                .bookName(rs.getString("BOOK_NAME"))
+                                .bookAuthor(rs.getString("BOOK_AUTHOR"))
+                                .launchStart(Timestamp.valueOf(rs.getString("LAUNCH_START")).toLocalDateTime())
+                                .launchEnd(Timestamp.valueOf(rs.getString("LAUNCH_END")).toLocalDateTime())
+                                .wordsCount(rs.getInt("WORDS_COUNT"))
+                                .build());
     }
 }
