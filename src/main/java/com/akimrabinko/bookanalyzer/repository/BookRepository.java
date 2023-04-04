@@ -1,5 +1,6 @@
 package com.akimrabinko.bookanalyzer.repository;
 
+import com.akimrabinko.bookanalyzer.dto.BookAnalysisDto;
 import com.akimrabinko.bookanalyzer.model.Book;
 import com.akimrabinko.bookanalyzer.model.BookAnalysis;
 import com.akimrabinko.bookanalyzer.model.WordsUsageAnalysis;
@@ -20,4 +21,8 @@ public interface BookRepository {
     String getBookContentById(long bookId);
 
     List<Book> getAllBooks();
+
+    List<WordsUsageAnalysis> getWordUsagesByAnalysisId(long id);
+
+    List<BookAnalysisDto> getAllBooksAnalysis();
 }

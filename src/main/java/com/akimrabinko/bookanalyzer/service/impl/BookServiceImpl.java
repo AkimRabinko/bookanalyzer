@@ -1,15 +1,18 @@
 package com.akimrabinko.bookanalyzer.service.impl;
 
+import com.akimrabinko.bookanalyzer.dto.BookAnalysisDto;
 import com.akimrabinko.bookanalyzer.model.Book;
 import com.akimrabinko.bookanalyzer.model.BookAnalysis;
 import com.akimrabinko.bookanalyzer.repository.BookRepository;
 import com.akimrabinko.bookanalyzer.service.BookAnalysisService;
 import com.akimrabinko.bookanalyzer.service.BookService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLException;
 import java.util.List;
+import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class BookServiceImpl implements BookService {
 
@@ -22,12 +25,14 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void importBook(Book book) throws SQLException {
+    public boolean importBook(Book book) {
         long id = bookRepository.importBook(book);
         if (id == -1) {
-            throw new SQLException("Book wasn't saved");
+            log.error("Book wasn't saved");
+            return false;
         }
         bookRepository.importContent(id, book.getContent());
+        return true;
     }
 
     @Override
@@ -43,5 +48,14 @@ public class BookServiceImpl implements BookService {
         bookRepository.updateBookAnalysis(bookAnalysis);
         bookRepository.importWordsUsageAnalysis(bookAnalysis.getWordsUsages());
         return bookAnalysis;
+    }
+
+    @Override
+    public List<BookAnalysisDto> getAllBooksAnalysis() {
+        return bookRepository.getAllBooksAnalysis().stream()
+                .map(el -> el.toBuilder()
+                        .wordsUsages(bookRepository.getWordUsagesByAnalysisId(el.getId()))
+                        .build())
+                .collect(Collectors.toList());
     }
 }
