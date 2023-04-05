@@ -1,3 +1,14 @@
 databaseChangeLog:
-  - includeAll:
-      path: db/changelog/v1/
+  - changeSet:
+      id: 1
+      author: Akim Rabinko
+      changes:
+        - sqlFile:
+            path: db/changelog/v1.sql
+  - changeSet:
+      id: 2
+      author: Akim Rabinko
+      changes:
+        - sqlFile:
+            path: db/changelog/v2.sql
+
