@@ -16,7 +16,5 @@ public interface LemmaService {
 
     boolean saveCorrections(List<Correction> corrections);
 
-    boolean updateCorrection(Correction correction);
-
-    boolean updateCorrections(List<Correction> corrections);
+    boolean deleteUnverifiedCorrection();
 }

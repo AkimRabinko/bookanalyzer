@@ -39,7 +39,7 @@ public class LemmaServiceEN implements LemmaService {
     @Override
     public List<Correction> getUnverifiedCorrections() {
         return getAllCorrections().stream()
-                .filter(correction -> !correction.isVerified())
+                .filter(correction -> CorrectionType.UNVERIFIED.equals(correction.getCorrectionType()))
                 .collect(Collectors.toList());
     }
 
@@ -53,19 +53,14 @@ public class LemmaServiceEN implements LemmaService {
         return corrections.stream().allMatch(this::saveCorrection);
     }
 
-    @Override
-    public boolean updateCorrection(Correction correction) {
-        return lemmaRepository.updateCorrection(SCHEMA_SUFFIX, correction);
-    }
-
-    @Override
-    public boolean updateCorrections(List<Correction> corrections) {
-        return corrections.stream().allMatch(this::updateCorrection);
-    }
-
     @CachePut(value="correction")
 
     public List<Correction> getAllCorrections() {
         return lemmaRepository.getAllCorrections(SCHEMA_SUFFIX);
+    }
+
+    @Override
+    public boolean deleteUnverifiedCorrection() {
+        return lemmaRepository.deleteUnverifiedCorrection(SCHEMA_SUFFIX);
     }
 }

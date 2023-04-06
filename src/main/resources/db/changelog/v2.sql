@@ -2,7 +2,7 @@ CREATE SCHEMA IF NOT EXISTS correction_en;
 
 CREATE TABLE correction_en.rules
 (
-    ID                    SERIAL                NOT NULL PRIMARY KEY,
+    ID                    BIGSERIAL                NOT NULL PRIMARY KEY,
     ORIGINAL_WORD_PATTERN CHARACTER VARYING(10) NOT NULL,
     LEMMA_WORD_PATTERN    CHARACTER VARYING(10) NOT NULL
 );
@@ -66,181 +66,186 @@ INSERT INTO correction_en.rules (ORIGINAL_WORD_PATTERN, LEMMA_WORD_PATTERN) VALU
 
 CREATE TABLE correction_en.common_correction
 (
-    ID            SERIAL                 NOT NULL PRIMARY KEY,
+    ID            BIGSERIAL                 NOT NULL PRIMARY KEY,
     ORIGINAL_WORD CHARACTER VARYING(100) NOT NULL,
     LEMMA_WORD    CHARACTER VARYING(100) NOT NULL,
-    VERIFIED      BOOLEAN                NOT NULL,
     RULE_ID       INTEGER DEFAULT 0
 );
 
 CREATE TABLE correction_en.manual_correction
 (
-    ID            SERIAL                 NOT NULL PRIMARY KEY,
+    ID            BIGSERIAL                 NOT NULL PRIMARY KEY,
     ORIGINAL_WORD CHARACTER VARYING(100) NOT NULL,
     LEMMA_WORD    CHARACTER VARYING(100) NOT NULL,
-    VERIFIED      BOOLEAN                NOT NULL,
     RULE_ID       INTEGER DEFAULT 0
 );
 
 CREATE TABLE correction_en.hybrid_correction
 (
-    ID            SERIAL                 NOT NULL PRIMARY KEY,
+    ID            BIGSERIAL                 NOT NULL PRIMARY KEY,
     ORIGINAL_WORD CHARACTER VARYING(100) NOT NULL,
     LEMMA_WORD    CHARACTER VARYING(100) NOT NULL,
-    VERIFIED      BOOLEAN                NOT NULL,
     RULE_ID       INTEGER DEFAULT 0
 );
 
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('fly', 'flown', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('know', 'known', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('bleed', 'bled', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('lend', 'lent', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('fall', 'fallen', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('ring', 'rung', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('bend', 'bent', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('do', 'did', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('run', 'ran', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('swear', 'sworn', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('choose', 'chose', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('fly', 'flew', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('hide', 'hidden', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('begin', 'begun', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('lead', 'led', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('stick', 'stuck', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('become', 'become', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('shut', 'shut', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('wake', 'woke', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('speed', 'sped', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('leave', 'left', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('shrink', 'shrunk', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('rise', 'rose', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('forgive', 'forgiven', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('sing', 'sung', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('understand', 'understood', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('come', 'come', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('wear', 'wore', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('get', 'got', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('sink', 'sank', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('cut', 'cut', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('rise', 'risen', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('shake', 'shook', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('think', 'thought', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('break', 'broken', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('bite', 'bit', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('let', 'let', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('teach', 'taught', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('grow', 'grown', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('shoot', 'shot', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('put', 'put', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('catch', 'caught', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('mean', 'meant', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('swim', 'swam', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('say', 'said', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('speak', 'spoken', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('build', 'built', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('drive', 'drove', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('eat', 'ate', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('write', 'written', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('hit', 'hit', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('draw', 'drew', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('draw', 'drawn', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('send', 'sent', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('beat', 'beaten', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('win', 'won', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('go', 'went', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('spread', 'spread', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('forget', 'forgotten', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('burn', 'burned', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('cost', 'cost', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('hide', 'hid', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('begin', 'began', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('drink', 'drunk', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('stand', 'stood', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('buy', 'bought', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('take', 'took', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('dig', 'dug', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('fight', 'fought', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('stink', 'stank', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('hurt', 'hurt', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('shine', 'shone', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('shrink', 'shrank', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('sting', 'stung', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('give', 'given', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('steal', 'stolen', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('tear', 'torn', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('hold', 'held', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('swear', 'swore', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('burn', 'burnt', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('breed', 'bred', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('feel', 'felt', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('have', 'had', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('throw', 'thrown', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('ride', 'ridden', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('stink', 'stunk', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('swim', 'swum', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('spend', 'spent', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('do', 'done', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('shake', 'shaken', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('show', 'shown', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('meet', 'met', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('tear', 'tore', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('bet', 'bet', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('break', 'broke', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('set', 'set', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('drink', 'drank', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('spill', 'spilled', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('blow', 'blown', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('pay', 'paid', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('throw', 'threw', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('sink', 'sunk', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('steal', 'stole', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('give', 'gave', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('forget', 'forgot', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('keep', 'kept', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('spill', 'spilt', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('lay', 'laid', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('bite', 'bitten', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('choose', 'chosen', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('come', 'came', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('write', 'wrote', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('ring', 'rang', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('lose', 'lost', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('see', 'saw', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('lean', 'leant', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('make', 'made', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('dream', 'dreamed', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('eat', 'eaten', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('lean', 'leaned', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('blow', 'blew', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('freeze', 'frozen', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('speak', 'spoke', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('take', 'taken', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('feed', 'fed', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('find', 'found', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('sell', 'sold', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('grow', 'grew', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('bring', 'brought', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('sit', 'sat', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('beat', 'beat', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('shoe', 'shod', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('sleep', 'slept', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('sweep', 'swept', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('show', 'showed', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('wake', 'woken', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('wear', 'worn', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('ride', 'rode', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('read', 'read', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('go', 'gone', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('run', 'run', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('tell', 'told', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('sing', 'sang', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('freeze', 'froze', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('swing', 'swung', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('hear', 'heard', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('drive', 'driven', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('see', 'seen', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('become', 'became', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('forgive', 'forgave', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('quit', 'quit', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('know', 'knew', true);
-INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD, VERIFIED) VALUES ('fall', 'fell', true);
+CREATE TABLE correction_en.tmp_correction
+(
+    ID            BIGSERIAL                 NOT NULL PRIMARY KEY,
+    ORIGINAL_WORD CHARACTER VARYING(100) NOT NULL,
+    LEMMA_WORD    CHARACTER VARYING(100) NOT NULL,
+    RULE_ID       INTEGER DEFAULT 0
+);
+
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('fly', 'flown');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('know', 'known');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('bleed', 'bled');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('lend', 'lent');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('fall', 'fallen');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('ring', 'rung');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('bend', 'bent');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('do', 'did');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('run', 'ran');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('swear', 'sworn');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('choose', 'chose');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('fly', 'flew');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('hide', 'hidden');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('begin', 'begun');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('lead', 'led');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('stick', 'stuck');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('become', 'become');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('shut', 'shut');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('wake', 'woke');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('speed', 'sped');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('leave', 'left');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('shrink', 'shrunk');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('rise', 'rose');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('forgive', 'forgiven');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('sing', 'sung');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('understand', 'understood');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('come', 'come');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('wear', 'wore');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('get', 'got');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('sink', 'sank');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('cut', 'cut');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('rise', 'risen');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('shake', 'shook');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('think', 'thought');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('break', 'broken');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('bite', 'bit');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('let', 'let');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('teach', 'taught');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('grow', 'grown');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('shoot', 'shot');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('put', 'put');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('catch', 'caught');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('mean', 'meant');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('swim', 'swam');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('say', 'said');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('speak', 'spoken');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('build', 'built');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('drive', 'drove');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('eat', 'ate');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('write', 'written');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('hit', 'hit');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('draw', 'drew');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('draw', 'drawn');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('send', 'sent');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('beat', 'beaten');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('win', 'won');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('go', 'went');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('spread', 'spread');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('forget', 'forgotten');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('burn', 'burned');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('cost', 'cost');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('hide', 'hid');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('begin', 'began');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('drink', 'drunk');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('stand', 'stood');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('buy', 'bought');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('take', 'took');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('dig', 'dug');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('fight', 'fought');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('stink', 'stank');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('hurt', 'hurt');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('shine', 'shone');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('shrink', 'shrank');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('sting', 'stung');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('give', 'given');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('steal', 'stolen');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('tear', 'torn');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('hold', 'held');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('swear', 'swore');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('burn', 'burnt');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('breed', 'bred');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('feel', 'felt');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('have', 'had');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('throw', 'thrown');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('ride', 'ridden');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('stink', 'stunk');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('swim', 'swum');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('spend', 'spent');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('do', 'done');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('shake', 'shaken');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('show', 'shown');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('meet', 'met');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('tear', 'tore');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('bet', 'bet');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('break', 'broke');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('set', 'set');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('drink', 'drank');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('spill', 'spilled');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('blow', 'blown');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('pay', 'paid');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('throw', 'threw');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('sink', 'sunk');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('steal', 'stole');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('give', 'gave');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('forget', 'forgot');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('keep', 'kept');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('spill', 'spilt');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('lay', 'laid');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('bite', 'bitten');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('choose', 'chosen');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('come', 'came');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('write', 'wrote');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('ring', 'rang');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('lose', 'lost');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('see', 'saw');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('lean', 'leant');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('make', 'made');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('dream', 'dreamed');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('eat', 'eaten');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('lean', 'leaned');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('blow', 'blew');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('freeze', 'frozen');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('speak', 'spoke');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('take', 'taken');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('feed', 'fed');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('find', 'found');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('sell', 'sold');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('grow', 'grew');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('bring', 'brought');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('sit', 'sat');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('beat', 'beat');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('shoe', 'shod');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('sleep', 'slept');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('sweep', 'swept');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('show', 'showed');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('wake', 'woken');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('wear', 'worn');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('ride', 'rode');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('read', 'read');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('go', 'gone');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('run', 'run');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('tell', 'told');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('sing', 'sang');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('freeze', 'froze');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('swing', 'swung');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('hear', 'heard');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('drive', 'driven');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('see', 'seen');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('become', 'became');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('forgive', 'forgave');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('quit', 'quit');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('know', 'knew');
+INSERT INTO correction_en.common_correction (ORIGINAL_WORD, LEMMA_WORD) VALUES ('fall', 'fell');

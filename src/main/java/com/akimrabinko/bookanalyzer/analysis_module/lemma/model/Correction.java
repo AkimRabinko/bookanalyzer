@@ -2,21 +2,33 @@ package com.akimrabinko.bookanalyzer.analysis_module.lemma.model;
 
 public class Correction {
     private final long id;
-    private String originalWord;
+    private final String originalWord;
     private final String lemmaWord;
-    private boolean verified;
     private final CorrectionType correctionType;
+    private final long ruleId;
+
+    public Correction(
+                      String originalWord,
+                      String lemmaWord,
+                      CorrectionType correctionType,
+                      long ruleId) {
+        this.id = -1L;
+        this.originalWord = originalWord;
+        this.lemmaWord = lemmaWord;
+        this.correctionType = correctionType;
+        this.ruleId = ruleId;
+    }
 
     public Correction(long id,
                       String originalWord,
                       String lemmaWord,
-                      boolean verified,
-                      CorrectionType correctionType) {
+                      CorrectionType correctionType,
+                      long ruleId) {
         this.id = id;
         this.originalWord = originalWord;
         this.lemmaWord = lemmaWord;
-        this.verified = verified;
         this.correctionType = correctionType;
+        this.ruleId = ruleId;
     }
 
     public long getId() {
@@ -31,16 +43,11 @@ public class Correction {
         return lemmaWord;
     }
 
-    public boolean isVerified() {
-        return verified;
-    }
-
     public CorrectionType getCorrectionType() {
         return correctionType;
     }
 
-    public void setOriginalWord(String lemmaWord) {
-        this.originalWord = lemmaWord;
-        this.verified = true;
+    public long getRuleId() {
+        return ruleId;
     }
 }

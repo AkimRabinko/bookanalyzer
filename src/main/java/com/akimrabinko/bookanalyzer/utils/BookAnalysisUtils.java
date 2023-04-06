@@ -34,7 +34,7 @@ public final class BookAnalysisUtils {
                 .collect(Collectors.toList());
     }
 
-    private static String[] prepareContent(String content) {
+    public static String[] prepareContent(String content) {
         return content.replaceAll(ONLY_LETTERS_REGEX, SPACE).toLowerCase().split(SPACE);
     }
 }
