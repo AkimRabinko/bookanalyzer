@@ -38,9 +38,7 @@ public class LemmaServiceEN implements LemmaService {
 
     @Override
     public List<Correction> getUnverifiedCorrections() {
-        return getAllCorrections().stream()
-                .filter(correction -> CorrectionType.UNVERIFIED.equals(correction.getCorrectionType()))
-                .collect(Collectors.toList());
+        return lemmaRepository.getUnverifiedCorrections(SCHEMA_SUFFIX);
     }
 
     @Override
@@ -50,7 +48,7 @@ public class LemmaServiceEN implements LemmaService {
 
     @Override
     public boolean saveCorrections(List<Correction> corrections) {
-        return corrections.stream().allMatch(this::saveCorrection);
+        return corrections.parallelStream().allMatch(this::saveCorrection);
     }
 
     @CachePut(value="correction")

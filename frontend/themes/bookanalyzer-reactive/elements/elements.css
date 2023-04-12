@@ -2,3 +2,7 @@ vaadin-text-area {
     min-height: 100px;
     max-height: 250px;
 }
+
+vaadin-tooltip-overlay::part(content) {
+    font-weight: bold;
+}

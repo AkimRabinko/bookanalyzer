@@ -7,6 +7,8 @@ import java.util.List;
 public interface LemmaRepository {
     List<Correction> getAllCorrections(String schemaSuffix);
 
+    List<Correction> getUnverifiedCorrections(String schemaSuffix);
+
     boolean saveCorrection(String schemaSuffix, Correction correction);
 
     boolean deleteUnverifiedCorrection(String schemaSuffix);

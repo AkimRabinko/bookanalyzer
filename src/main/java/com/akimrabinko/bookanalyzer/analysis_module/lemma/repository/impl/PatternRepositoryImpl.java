@@ -1,8 +1,8 @@
 package com.akimrabinko.bookanalyzer.analysis_module.lemma.repository.impl;
 
+import com.akimrabinko.bookanalyzer.analysis_module.lemma.mapper.PatternRowMapper;
 import com.akimrabinko.bookanalyzer.analysis_module.lemma.model.Pattern;
 import com.akimrabinko.bookanalyzer.analysis_module.lemma.repository.PatternRepository;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -24,13 +24,13 @@ public class PatternRepositoryImpl implements PatternRepository {
     @Override
     public List<Pattern> getAllPatterns(String schemaSuffix) {
         String tableRef = createTableReference(schemaSuffix, PATTERN_TABLE);
-        return jdbcTemplate.query("SELECT * FROM " + tableRef, new BeanPropertyRowMapper<>(Pattern.class));
+        return jdbcTemplate.query("SELECT * FROM " + tableRef, PatternRowMapper.getInstance());
     }
 
     @Override
     public boolean savePattern(String schemaSuffix, Pattern pattern) {
         return isSaved(jdbcTemplate.update("INSERT INTO " + schemaSuffix
-                + "(ORIGINAL_WORD_PATTERN, LEMMA_WORD_PATTERN) VALUES (?, ?)",
+                        + "(ORIGINAL_WORD_PATTERN, LEMMA_WORD_PATTERN) VALUES (?, ?)",
                 pattern.getOriginalWordPattern(),
                 pattern.getLemmaWordPattern()));
     }

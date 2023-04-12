@@ -27,7 +27,7 @@ public final class PatternRegexMatchUtils {
             int index = word.lastIndexOf(lemmaSuffix);
             return word.substring(0, index)
                     + originalSuffix
-                    + word.substring(index + originalSuffix.length());
+                    + word.substring(index + lemmaSuffix.length());
         }
         return word;
     }

@@ -1,5 +1,6 @@
 import {css, html, LitElement} from 'lit';
 import {customElement} from 'lit/decorators.js';
+
 import '@vaadin/app-layout';
 import '@vaadin/app-layout/vaadin-drawer-toggle';
 import '@vaadin/icon';
@@ -10,6 +11,7 @@ import '@vaadin/accordion';
 import {applyTheme} from 'Frontend/generated/theme';
 import './books';
 import './books-analysis'
+import './lemma-analysis'
 
 
 @customElement('main-layout')
@@ -40,12 +42,19 @@ export class MainLayout extends LitElement {
                         <vaadin-icon theme="icon-on-left" icon="vaadin:info-circle-o"></vaadin-icon>
                         <span>Books Analysis</span>
                     </vaadin-tab>
+                    <vaadin-tab id="lemma_analysis">
+                        <vaadin-icon theme="icon-on-left" icon="vaadin:magic"></vaadin-icon>
+                        <span>Lemma Analysis</span>
+                    </vaadin-tab>
                 </vaadin-tabs>
                 <div tab="main" style="height: 90%">
                     <books-template></books-template>
                 </div>
                 <div tab="analyzed_books" style="height: 90%">
                     <books-analysis-template></books-analysis-template>
+                </div>
+                <div tab="lemma_analysis" style="height: 90%">
+                    <lemma-analysis-layout></lemma-analysis-layout>
                 </div>
             </vaadin-tabsheet>
         `;

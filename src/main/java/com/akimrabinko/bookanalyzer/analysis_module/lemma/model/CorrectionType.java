@@ -14,7 +14,7 @@ public enum CorrectionType {
     COMMON("common_correction"),
     MANUAL("manual_correction"),
     HYBRID("hybrid_correction"),
-    UNVERIFIED("unverified_correction");
+    UNVERIFIED("tmp_correction");
 
     private static final Map<String, CorrectionType> TABLE_TO_CORRECTIONS_MAP = Arrays.stream(CorrectionType.values())
             .collect(Collectors.toMap(CorrectionType::getTable, Function.identity()));

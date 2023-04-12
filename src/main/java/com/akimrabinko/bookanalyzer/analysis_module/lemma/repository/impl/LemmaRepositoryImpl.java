@@ -32,11 +32,18 @@ public class LemmaRepositoryImpl implements LemmaRepository {
     }
 
     @Override
+    public List<Correction> getUnverifiedCorrections(String schemaSuffix) {
+        String correctionTablesReference = createTableReference(schemaSuffix, CorrectionType.UNVERIFIED.getTable());
+        return jdbcTemplate.query("SELECT * FROM " + correctionTablesReference,
+                CorrectionRowMapper.getInstance());
+    }
+
+    @Override
     public boolean saveCorrection(String schemaSuffix, Correction correction) {
         String correctionTableReference = createTableReference(schemaSuffix,
                 correction.getCorrectionType().getTable());
         return isSaved(jdbcTemplate.update("INSERT INTO " + correctionTableReference
-                + " (ORIGINAL_WORD, FIXED_WORD, RULE_ID) VALUES (?, ?, ?)",
+                + " (ORIGINAL_WORD, LEMMA_WORD, RULE_ID) VALUES (?, ?, ?)",
                 correction.getOriginalWord(),
                 correction.getLemmaWord(),
                 correction.getRuleId()));
