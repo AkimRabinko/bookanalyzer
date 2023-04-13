@@ -7,9 +7,7 @@ import com.akimrabinko.bookanalyzer.analysis_module.lemma.repository.LemmaReposi
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.akimrabinko.bookanalyzer.analysis_module.lemma.utils.SqlUtils.createTableReference;
 import static com.akimrabinko.bookanalyzer.analysis_module.lemma.utils.SqlUtils.isSaved;
@@ -22,13 +20,9 @@ public class LemmaRepositoryImpl implements LemmaRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    @Override
-    public List<Correction> getAllCorrections(String schemaSuffix) {
-        String correctionTablesReference = Arrays.stream(CorrectionType.values())
-                .map(e -> createTableReference(schemaSuffix, e.getTable()))
-                .collect(Collectors.joining(", "));
-        return jdbcTemplate.query("SELECT * FROM " + correctionTablesReference,
-                CorrectionRowMapper.getInstance());
+    public List<Correction> getAllCorrectionsByType(String schemaSuffix, CorrectionType correction) {
+        String correctionTableRef = createTableReference(schemaSuffix, correction.getTable());
+        return jdbcTemplate.query("SELECT * FROM " + correctionTableRef, CorrectionRowMapper.getInstance());
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.akimrabinko.bookanalyzer.analysis_module.lemma.utils;
 import com.akimrabinko.bookanalyzer.analysis_module.lemma.model.Pattern;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.ObjectUtils;
 
 import static com.github.jknack.handlebars.internal.lang3.StringUtils.EMPTY;
 
@@ -21,7 +22,7 @@ public final class PatternRegexMatchUtils {
     }
 
     public static String formatToOriginalPattern(String word, Pattern pattern) {
-        if (isPatternWord(word, pattern)) {
+        if (ObjectUtils.isNotEmpty(pattern) && isPatternWord(word, pattern)) {
             String lemmaSuffix = pattern.getLemmaWordPattern().replaceAll(ANY_CHARACTERS_PATTERN, EMPTY);
             String originalSuffix = pattern.getOriginalWordPattern().replaceAll(ANY_CHARACTERS_PATTERN, EMPTY);
             int index = word.lastIndexOf(lemmaSuffix);

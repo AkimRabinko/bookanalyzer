@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static com.akimrabinko.bookanalyzer.analysis_module.lemma.utils.PatternRegexMatchUtils.formatToOriginalPattern;
 import static com.akimrabinko.bookanalyzer.analysis_module.lemma.utils.PatternRegexMatchUtils.isPatternWord;
@@ -32,11 +34,12 @@ public class LemmaAnalysisServiceEN implements LemmaAnalysisService {
     public boolean runLemmaAnalysisOnText(String text) {
         String[] content = prepareContent(text);
         List<Pattern> patterns = patternService.getAllPatterns();
-        List<Correction> corrections = Arrays.stream(content)
-                .map(word -> getCorrection(word, patterns))
+        List<Correction> verifiedCorrections = lemmaService.getAllCorrections();
+        Set<Correction> corrections = Arrays.stream(content)
+                .map(word -> getCorrection(word, patterns, verifiedCorrections))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
-                .toList();
+                .collect(Collectors.toSet());
         lemmaService.saveCorrections(corrections);
         return true;
     }
@@ -48,13 +51,20 @@ public class LemmaAnalysisServiceEN implements LemmaAnalysisService {
         return true;
     }
 
-    private Optional<Correction> getCorrection(String word, List<Pattern> patterns) {
+    private Optional<Correction> getCorrection(String word,
+                                               List<Pattern> patterns,
+                                               List<Correction> verifiedCorrections) {
+        boolean isVerified = verifiedCorrections.stream()
+                .anyMatch(correction -> correction.getLemmaWord().equalsIgnoreCase(word));
+        if (isVerified) {
+            return Optional.empty();
+        }
         Optional<Pattern> pattern = checkOnPatternAndGet(word, patterns);
-        return pattern.map(value -> new Correction(
-                formatToOriginalPattern(word, value),
+        return Optional.of(new Correction(
+                formatToOriginalPattern(word, pattern.orElse(null)),
                 word,
                 CorrectionType.UNVERIFIED,
-                value.getId()));
+                pattern.map(Pattern::getId).orElse(0L)));
     }
 
     private Optional<Pattern> checkOnPatternAndGet(String value, List<Pattern> patterns) {

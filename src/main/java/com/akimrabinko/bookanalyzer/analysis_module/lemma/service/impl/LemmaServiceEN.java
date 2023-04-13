@@ -7,6 +7,8 @@ import com.akimrabinko.bookanalyzer.analysis_module.lemma.service.LemmaService;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,6 +39,16 @@ public class LemmaServiceEN implements LemmaService {
     }
 
     @Override
+    @CachePut(value = "correction")
+    public List<Correction> getAllCorrections() {
+        return Arrays.stream(CorrectionType.values())
+                .filter(val -> !CorrectionType.UNVERIFIED.equals(val))
+                .flatMap(val -> lemmaRepository.getAllCorrectionsByType(SCHEMA_SUFFIX, val)
+                        .parallelStream())
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public List<Correction> getUnverifiedCorrections() {
         return lemmaRepository.getUnverifiedCorrections(SCHEMA_SUFFIX);
     }
@@ -47,14 +59,8 @@ public class LemmaServiceEN implements LemmaService {
     }
 
     @Override
-    public boolean saveCorrections(List<Correction> corrections) {
+    public boolean saveCorrections(Collection<Correction> corrections) {
         return corrections.parallelStream().allMatch(this::saveCorrection);
-    }
-
-    @CachePut(value="correction")
-
-    public List<Correction> getAllCorrections() {
-        return lemmaRepository.getAllCorrections(SCHEMA_SUFFIX);
     }
 
     @Override

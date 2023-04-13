@@ -26,4 +26,9 @@ public class PatternServiceEN implements PatternService {
     public boolean savePattern(Pattern pattern) {
         return patternRepository.savePattern(SCHEMA_SUFFIX, pattern);
     }
+
+    @Override
+    public boolean savePatterns(List<Pattern> patterns) {
+        return patterns.stream().allMatch(this::savePattern);
+    }
 }

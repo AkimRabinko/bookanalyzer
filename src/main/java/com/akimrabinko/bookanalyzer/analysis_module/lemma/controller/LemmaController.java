@@ -27,6 +27,10 @@ public class LemmaController {
         return lemmaService.getAllCorrectionsByType(type);
     }
 
+    public List<Correction> getAllCorrections() {
+        return lemmaService.getAllCorrections();
+    }
+
     public List<Correction> getUnverifiedCorrections() {
         return lemmaService.getUnverifiedCorrections();
     }

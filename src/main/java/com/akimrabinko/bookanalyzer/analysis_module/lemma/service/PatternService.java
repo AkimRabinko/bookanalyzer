@@ -8,4 +8,6 @@ public interface PatternService {
     List<Pattern> getAllPatterns();
 
     boolean savePattern(Pattern pattern);
+
+    boolean savePatterns(List<Pattern> patterns);
 }

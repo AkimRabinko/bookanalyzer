@@ -23,4 +23,8 @@ public class PatternController {
     public boolean savePattern(Pattern pattern) {
         return patternService.savePattern(pattern);
     }
+
+    public boolean savePatterns(List<Pattern> patterns) {
+        return patternService.savePatterns(patterns);
+    }
 }

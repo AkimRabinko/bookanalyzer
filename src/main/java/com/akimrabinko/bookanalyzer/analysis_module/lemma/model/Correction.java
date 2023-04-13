@@ -1,5 +1,8 @@
 package com.akimrabinko.bookanalyzer.analysis_module.lemma.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 public class Correction {
     private final long id;
     private final String originalWord;
@@ -8,10 +11,10 @@ public class Correction {
     private final long ruleId;
 
     public Correction(
-                      String originalWord,
-                      String lemmaWord,
-                      CorrectionType correctionType,
-                      long ruleId) {
+            String originalWord,
+            String lemmaWord,
+            CorrectionType correctionType,
+            long ruleId) {
         this.id = -1L;
         this.originalWord = originalWord;
         this.lemmaWord = lemmaWord;
@@ -49,5 +52,21 @@ public class Correction {
 
     public long getRuleId() {
         return ruleId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Correction that = (Correction) o;
+
+        return new EqualsBuilder().append(id, that.id).append(ruleId, that.ruleId).append(originalWord, that.originalWord).append(lemmaWord, that.lemmaWord).append(correctionType, that.correctionType).isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37).append(id).append(originalWord).append(lemmaWord).append(correctionType).append(ruleId).toHashCode();
     }
 }
